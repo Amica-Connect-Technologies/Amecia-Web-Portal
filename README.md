@@ -1,9 +1,9 @@
-Backend Authentication API (JWT)
+<h1>Backend Authentication API (JWT)</h1>
 
 This repository contains a fully functional backend authentication system built with Django & Django REST Framework, secured using JWT (JSON Web Tokens).
 The API provides user registration, login, logout, profile management, password change, and user listing.
 
-🚀 Features
+<h2>🚀 Features</h2>
 
 User Registration
 
@@ -19,7 +19,7 @@ List All Users (Admin/Authorized Access)
 
 JWT-based protected routes
 
-🛠 Tech Stack
+<h2>🛠 Tech Stack</h2>
 
 Python
 
@@ -30,5 +30,3 @@ Django REST Framework (DRF)
 JWT Authentication
 
 SQLite / PostgreSQL (configurable)
-
-📌
