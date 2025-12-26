@@ -35,8 +35,8 @@ SQLite (configurable)
 
 <h1>⚙️ Project Setup (Windows)</h1>
 1️⃣ Clone Repository
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone [https://github.com/your-username/your-repo-name.git](https://github.com/Amica-Connect-Technologies/Amecia-Web-Portal.git)
+cd Amecia-Web-Portal
 
 2️⃣ Create Virtual Environment
 python -m venv venv
