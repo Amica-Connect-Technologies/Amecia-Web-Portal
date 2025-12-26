@@ -29,4 +29,4 @@ Django REST Framework (DRF)
 
 JWT Authentication
 
-SQLite / PostgreSQL (configurable)
+SQLite (configurable)
