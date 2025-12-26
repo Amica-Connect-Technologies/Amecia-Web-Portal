@@ -34,8 +34,8 @@ SQLite (configurable)
 
 
 <h1>⚙️ Project Setup (Windows)</h1>
-1️⃣ Clone Repository
-git clone [https://github.com/Amica-Connect-Technologies/Amecia-Web-Portal.git]
+1️⃣ Clone Repository<br/>
+git clone [https://github.com/Amica-Connect-Technologies/Amecia-Web-Portal.git] <br/>
 cd Amecia-Web-Portal
 
 2️⃣ Create Virtual Environment
