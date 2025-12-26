@@ -30,3 +30,48 @@ Django REST Framework (DRF)
 JWT Authentication
 
 SQLite (configurable)
+
+
+
+<h1>⚙️ Project Setup (Windows)</h1>
+1️⃣ Clone Repository
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+
+2️⃣ Create Virtual Environment
+python -m venv venv
+
+3️⃣ Activate Virtual Environment
+Command Prompt (CMD)
+venv\Scripts\activate
+
+Then activate again.
+
+4️⃣ Install Dependencies
+pip install -r requirements.txt
+
+
+If requirements.txt is not available:
+
+pip install django djangorestframework djangorestframework-simplejwt
+
+5️⃣ Apply Database Migrations
+python manage.py makemigrations
+python manage.py migrate
+
+6️⃣ Create Superuser (Optional)
+python manage.py createsuperuser
+
+7️⃣ Run Django Server
+python manage.py runserver
+
+🌐 Application URLs
+
+Backend Server:
+
+http://127.0.0.1:8000/
+
+Admin Panel:
+
+http://127.0.0.1:8000/admin/
+
