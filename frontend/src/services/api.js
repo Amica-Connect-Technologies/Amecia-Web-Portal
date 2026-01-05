@@ -61,10 +61,14 @@ export const authAPI = {
   getProfile: () => api.get("/auth/me/"),
 };
 
-
+// Job API calls
 export const jobAPI = {
   getAllJobs: (params) => api.get('/jobs/jobs/', { params }),
   getJob: (id) => api.get(`/jobs/jobs/${id}/`),
+  getMyPostedJobs: () => api.get('/jobs/jobs/my_posted_jobs/'),
+  getJobApplications: (jobId) => api.get(`/jobs/jobs/${jobId}/applications/`),
+  
+  // Applications
   applyForJob: (formData) => api.post('/jobs/applications/', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -74,13 +78,67 @@ export const jobAPI = {
   getApplication: (id) => api.get(`/jobs/applications/${id}/`),
   updateApplicationStatus: (id, status) => 
     api.patch(`/jobs/applications/${id}/update_status/`, { status }),
+  getAllApplications: () => api.get('/jobs/applications/'),
 };
 
-// Profile API calls
+// Profile API calls - UPDATED ENDPOINTS
 export const profileAPI = {
-  // For file uploads, we need to use FormData and multipart/form-data
+  // Get or create profile
+  getProfile: async () => {
+    try {
+      const response = await api.get("/profile/me/");
+      return response.data;
+    } catch (error) {
+      // If profile doesn't exist, return null
+      if (error.response?.status === 404) {
+        return null;
+      }
+      throw error;
+    }
+  },
+
+  // Create or update profile
+  saveProfile: async (data) => {
+    try {
+      // First try to get existing profile
+      const existingProfile = await api.get("/profile/me/").catch(() => null);
+      
+      if (existingProfile?.data) {
+        // Update existing profile
+        if (data instanceof FormData) {
+          return api.put("/profile/me/", data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        }
+        return api.put("/profile/me/", data);
+      } else {
+        // Create new profile
+        if (data instanceof FormData) {
+          return api.post("/profile/create/", data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        }
+        return api.post("/profile/create/", data);
+      }
+    } catch (error) {
+      // If update fails, try to create
+      if (data instanceof FormData) {
+        return api.post("/profile/create/", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+      return api.post("/profile/create/", data);
+    }
+  },
+
+  // Create new profile (explicit)
   createProfile: (data) => {
-    // If data is FormData (contains files), use multipart/form-data
     if (data instanceof FormData) {
       return api.post("/profile/create/", data, {
         headers: {
@@ -88,10 +146,10 @@ export const profileAPI = {
         },
       });
     }
-    // Otherwise use JSON
     return api.post("/profile/create/", data);
   },
-  getProfile: () => api.get("/profile/me/"),
+
+  // Update existing profile
   updateProfile: (data) => {
     if (data instanceof FormData) {
       return api.put("/profile/me/", data, {
@@ -101,6 +159,17 @@ export const profileAPI = {
       });
     }
     return api.put("/profile/me/", data);
+  },
+
+  // Upload file
+  uploadFile: (fileType, file) => {
+    const formData = new FormData();
+    formData.append(fileType, file);
+    return api.post(`/profile/upload_${fileType}/`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
 };
 
