@@ -47,12 +47,12 @@ git clone [https://github.com/Amica-Connect-Technologies/Amecia-Web-Portal.git] 
 cd Amecia-Web-Portal
 
 2️⃣ Create Virtual Environment
-python -m venv venv
+python -m venv venv <br/><br/>
 
 3️⃣ Activate Virtual Environment
-Command Prompt (CMD)
+Command Prompt (CMD)<br/>
 venv\Scripts\activate
-
+<br/>
 Then activate again.
 
 4️⃣ Install Dependencies
@@ -63,14 +63,14 @@ If requirements.txt is not available:
 
 pip install django djangorestframework djangorestframework-simplejwt
 
-5️⃣ Apply Database Migrations
-python manage.py makemigrations
-python manage.py migrate
+5️⃣ Apply Database Migrations <br/>
+python manage.py makemigrations<br/><br/>
+python manage.py migrate<br/>
 
-6️⃣ Create Superuser (Optional)
+6️⃣ Create Superuser (Optional)<br/>
 python manage.py createsuperuser
 
-7️⃣ Run Django Server
+7️⃣ Run Django Server<br/><br/>
 python manage.py runserver
 
 🌐 Application URLs
