@@ -282,7 +282,3 @@ def delete_user(request, user_id):
         })
     
     return JsonResponse({'success': False, 'error': 'Invalid request'})
-
-
-
-
