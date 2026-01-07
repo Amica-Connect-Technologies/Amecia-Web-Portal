@@ -5,7 +5,7 @@ import {
   Briefcase, FileText, Calendar, CheckCircle, Plus, 
   Edit2, Eye, EyeOff, LogOut, Trash2, X, Check, Camera, RefreshCcw 
 } from 'lucide-react';
-import { useAuth } from '../../App';
+import { useAuth } from '../../../App';
 
 interface JobListing {
   id: string;

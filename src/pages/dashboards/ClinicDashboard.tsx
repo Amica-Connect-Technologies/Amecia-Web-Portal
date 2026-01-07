@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Briefcase, FileText, MessageSquare, Plus, Edit2, LogOut, Trash2, X, Check, Camera, RefreshCcw } from 'lucide-react';
-import { useAuth } from '../../App';
+import { useAuth } from '../../../App';
 
 interface StaffMember {
   id: string;

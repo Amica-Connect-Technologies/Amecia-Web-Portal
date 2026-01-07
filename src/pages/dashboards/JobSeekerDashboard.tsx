@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FileText, Calendar, Bookmark, RefreshCcw, LogOut, User } from 'lucide-react';
-import { useAuth } from '../../App';
+import { useAuth } from '../../../App';
 
 const JobSeekerDashboard: React.FC = () => {
   const { logout } = useAuth();
