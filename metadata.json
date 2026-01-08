@@ -1,0 +1,8 @@
+{
+  "name": "Amica Connect",
+  "description": "A comprehensive platform connecting healthcare professionals, clinics, and employers. Featuring job boards, provider directories, and specialized dashboards for all user roles.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
