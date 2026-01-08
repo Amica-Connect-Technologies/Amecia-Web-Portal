@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { profileAPI } from '../../services/api';
+import { useAuth } from '../../../context/AuthContext';
+import { profileAPI } from '../../../services/api';
 import { 
   UserIcon, 
   AcademicCapIcon, 
@@ -14,8 +14,8 @@ import {
   PencilIcon,
   ExclamationCircleIcon
 } from '@heroicons/react/24/outline';
-import LoadingSpinner from '../../components/Common/LoadingSpinner';
-import Alert from '../../components/Common/Alert';
+import LoadingSpinner from '../../../components/Common/LoadingSpinner';
+import Alert from '../../../components/Common/Alert';
 
 const ProfileView = () => {
   const navigate = useNavigate();
@@ -104,7 +104,7 @@ const ProfileView = () => {
             <p className="text-gray-600 mt-2">View and manage your professional profile</p>
           </div>
           <button
-            onClick={() => navigate('/profile/edit')}
+            onClick={() => navigate('/jobseeker/profile/edit')}
             className="bg-white text-blue-600 px-4 py-2 rounded-lg border border-blue-600 hover:bg-blue-50 transition flex items-center"
           >
             <PencilIcon className="w-4 h-4 mr-2" />

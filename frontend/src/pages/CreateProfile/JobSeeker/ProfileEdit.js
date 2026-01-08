@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import FormInput from '../../components/Common/FormInput';
-import Alert from '../../components/Common/Alert';
-import LoadingSpinner from '../../components/Common/LoadingSpinner';
-import { profileAPI } from '../../services/api';
+import { useAuth } from '../../../context/AuthContext';
+import FormInput from '../../../components/Common/FormInput';
+import Alert from '../../../components/Common/Alert';
+import LoadingSpinner from '../../../components/Common/LoadingSpinner';
+import { profileAPI } from '../../../services/api';
 import { 
   UserIcon, 
   ArrowUpTrayIcon,

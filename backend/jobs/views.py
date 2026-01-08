@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import Job, JobApplication
 from .serializers import JobSerializer, JobApplicationSerializer
+from rest_framework.permissions import AllowAny
+
 
 class IsAdminUser(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -15,9 +17,9 @@ class JobViewSet(viewsets.ModelViewSet):
     
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            permission_classes = [permissions.IsAuthenticated, IsAdminUser]
+            permission_classes = [AllowAny]
         else:
-            permission_classes = [permissions.IsAuthenticated]
+            permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
     
     def perform_create(self, serializer):
@@ -38,7 +40,7 @@ class JobViewSet(viewsets.ModelViewSet):
 
 class JobApplicationViewSet(viewsets.ModelViewSet):
     serializer_class = JobApplicationSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get_queryset(self):
         # Admins see all applications, users see only theirs

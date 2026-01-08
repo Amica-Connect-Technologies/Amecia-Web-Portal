@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { jobAPI, profileAPI } from '../../services/api';
-import LoadingSpinner from '../../components/Common/LoadingSpinner';
-import Alert from '../../components/Common/Alert';
+import { jobAPI, profileAPI } from '../../../services/api';
+import LoadingSpinner from '../../../components/Common/LoadingSpinner';
+import Alert from '../../../components/Common/Alert';
 import { 
   MapPinIcon, 
   CurrencyDollarIcon, 

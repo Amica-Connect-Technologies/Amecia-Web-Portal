@@ -16,19 +16,44 @@ import Dashboard from "./pages/Dashboard";
 import ClinicProfile from "./pages/CreateProfile/ClinicProfile";
 import EmployerProfile from "./pages/CreateProfile/EmployerProfile";
 import JobSeekerProfile from "./pages/CreateProfile/JobSeekerProfile";
-import ProfileView from "./pages/CreateProfile/ProfileView";
-import ProfileEdit from "./pages/CreateProfile/ProfileEdit";
-import JobBrowse from "./pages/CreateProfile/JobBrowse";
-import JobDetail from "./pages/CreateProfile/JobDetail";
+
+import JobProfileView from "./pages/CreateProfile/JobSeeker/ProfileView";
+import JobProfileEdit from "./pages/CreateProfile/JobSeeker/ProfileEdit";
+import JobBrowse from "./pages/CreateProfile/JobSeeker/JobBrowse";
+import JobDetail from "./pages/CreateProfile/JobSeeker/JobDetail";
+import Home from "./pages/Home";
+import Navbar from "./components/Layout/Navbar";
+import Footer from "./components/Layout/Footer";
+import ContactUs from "./pages/Contact";
+import AboutUs from "./pages/About";
+import JobsPage from "./pages/Jobs";
+import ClinicProfileView from "./pages/CreateProfile/ClinicProfile/ClinicProfileView";
+import ClinicProfileEdit from "./pages/CreateProfile/ClinicProfile/ClinicProfileEdit";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <Navbar />
         <Routes>
           {/* Public Routes */}
+
+          <Route path="/" element={<Home />} />
+          <Route path="/jobs" element={<JobsPage />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+
+          {/* Clinic Profile Routes */}
+          <Route path="/clinic/profile" element={<ClinicProfileView />} />
+          <Route path="/clinic/profile/edit" element={<ClinicProfileEdit />} />
+          <Route path="/clinic/create" element={<ClinicProfile />} />
+
+          {/* Job-Seeker Profile Routes */}
+          <Route path="/jobseeker/profile/edit" element={<JobProfileEdit />} />
+          <Route path="/jobseeker/profile/view" element={<JobProfileView />} />
+
 
           {/* Protected Routes with Layout */}
           <Route
@@ -65,7 +90,7 @@ function App() {
             }
           />
 
-          <Route
+          {/* <Route
             path="/create-profile/clinic"
             element={
               <ProtectedRoute>
@@ -74,7 +99,7 @@ function App() {
                 </Layout>
               </ProtectedRoute>
             }
-          />
+          /> */}
 
           <Route
             path="/create-profile/employer"
@@ -98,15 +123,55 @@ function App() {
             }
           />
 
+          {/* Job Seeker Specific Routes - Protected */}
+          {/* <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <JobProfileView />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile/edit"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <JobProfileEdit />
+                </Layout>
+              </ProtectedRoute>
+            }
+          /> */}
+
+          <Route
+            path="/jobs"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <JobBrowse />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/jobs/:id"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <JobDetail />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
-
-          <Route path="/profile" element={<ProfileView />} />
-          <Route path="/profile/edit" element={<ProfileEdit />} />
-          <Route path="/jobs" element={<JobBrowse />} />
-          <Route path="/jobs/:id" element={<JobDetail />} />
-
         </Routes>
+        <Footer />
       </Router>
     </AuthProvider>
   );
