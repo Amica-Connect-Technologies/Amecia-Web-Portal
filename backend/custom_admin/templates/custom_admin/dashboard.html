@@ -1,0 +1,286 @@
+{% extends 'custom_admin/base.html' %} {% block page_title %}Dashboard{%
+endblock %} {% block page_subtitle %}Overview and statistics{% endblock %} {%
+block extra_css %}
+<style>
+  .chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    height: 300px;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="space-y-6">
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="card stat-card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm opacity-90">Total Users</p>
+          <h3 class="text-3xl font-bold mt-2">{{ total_users }}</h3>
+          <p class="text-sm mt-2">
+            <span class="text-green-300">↑ {{ new_users_today }} today</span>
+          </p>
+        </div>
+        <div
+          class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center"
+        >
+          <i class="fas fa-users text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-gray-600 text-sm">Active Users</p>
+          <h3 class="text-3xl font-bold text-gray-800 mt-2">
+            {{ active_users }}
+          </h3>
+          <p class="text-gray-500 text-sm mt-2">
+            {{ active_percentage|floatformat:1 }}% of total
+          </p>
+        </div>
+        <div
+          class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center"
+        >
+          <i class="fas fa-user-check text-green-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-gray-600 text-sm">New This Week</p>
+          <h3 class="text-3xl font-bold text-gray-800 mt-2">
+            {{ new_users_week }}
+          </h3>
+          <p class="text-gray-500 text-sm mt-2">Users registered</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"
+        >
+          <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-gray-600 text-sm">Profile Completion</p>
+          <h3 class="text-3xl font-bold text-gray-800 mt-2">
+            {{ total_clinics|add:total_employers|add:total_job_seekers }}
+          </h3>
+          <p class="text-gray-500 text-sm mt-2">
+            {{ profiles_without_users }} without profile
+          </p>
+        </div>
+        <div
+          class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center"
+        >
+          <i class="fas fa-id-card text-purple-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts and Data -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- User Registration Chart -->
+    <div class="card p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">
+        User Registrations (Last 30 Days)
+      </h3>
+      <div class="chart-container">
+        <canvas id="registrationChart"></canvas>
+      </div>
+    </div>
+
+    <!-- User Type Distribution -->
+    <div class="card p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">
+        User Type Distribution
+      </h3>
+      <div class="space-y-4">
+        {% for stat in user_type_stats %}
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="font-medium">{{ stat.user_type|title }}</span>
+            <span>{{ stat.count }} ({{ stat.percentage|floatformat:1 }}%)</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div
+              class="h-2 rounded-full {% cycle 'bg-blue-500' 'bg-green-500' 'bg-purple-500' 'bg-yellow-500' %}"
+              style="width: {{ stat.percentage }}%"
+            ></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Users -->
+  <div class="card p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-lg font-semibold text-gray-800">Recent Users</h3>
+      <a
+        href="{% url 'custom_admin:manage_users' %}"
+        class="text-blue-600 hover:text-blue-800 text-sm font-medium"
+      >
+        View All →
+      </a>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="px-6 py-3 text-left">User</th>
+            <th class="px-6 py-3 text-left">Type</th>
+            <th class="px-6 py-3 text-left">Status</th>
+            <th class="px-6 py-3 text-left">Joined</th>
+            <th class="px-6 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in recent_users %}
+          <tr>
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <div
+                  class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-3"
+                >
+                  {{ user.email|first|upper }}
+                </div>
+                <div>
+                  <p class="font-medium">{{ user.email }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <span
+                class="badge {% if user.user_type == 'clinic' %}badge-info{% elif user.user_type == 'employer' %}badge-warning{% else %}badge-success{% endif %}"
+              >
+                {{ user.user_type|title }}
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              <span
+                class="badge {% if user.is_active %}badge-success{% else %}badge-danger{% endif %}"
+              >
+                {{ user.is_active|yesno:"Active,Inactive" }}
+              </span>
+            </td>
+            <td class="px-6 py-4 text-gray-600">
+              {{ user.date_joined|date:"M d, Y" }}
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex space-x-2">
+                <a
+                  href="{% url 'custom_admin:user_detail' user.id %}"
+                  class="px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm hover:bg-blue-200"
+                >
+                  View
+                </a>
+                <button
+                  onclick="toggleUserStatus('{{ user.id }}', {{ user.is_active|yesno:'true,false' }})"
+                  class="px-3 py-1 {% if user.is_active %}bg-yellow-100 text-yellow-600 hover:bg-yellow-200{% else %}bg-green-100 text-green-600 hover:bg-green-200{% endif %} rounded text-sm"
+                >
+                  {{ user.is_active|yesno:"Deactivate,Activate" }}
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Profile Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="card p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="font-semibold text-gray-800">Clinics</h4>
+        <span class="text-2xl font-bold text-blue-600"
+          >{{ total_clinics }}</span
+        >
+      </div>
+      <p class="text-gray-600 text-sm">Medical clinics registered</p>
+    </div>
+
+    <div class="card p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="font-semibold text-gray-800">Employers</h4>
+        <span class="text-2xl font-bold text-green-600"
+          >{{ total_employers }}</span
+        >
+      </div>
+      <p class="text-gray-600 text-sm">Companies hiring</p>
+    </div>
+
+    <div class="card p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="font-semibold text-gray-800">Job Seekers</h4>
+        <span class="text-2xl font-bold text-purple-600"
+          >{{ total_job_seekers }}</span
+        >
+      </div>
+      <p class="text-gray-600 text-sm">Healthcare professionals</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Registration Chart
+  const regData = {{ daily_registrations|safe }};
+  const dates = regData.map(d => d.date.split('-').slice(1).join('/'));
+  const counts = regData.map(d => d.count);
+
+  const ctx = document.getElementById('registrationChart').getContext('2d');
+  new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: dates,
+          datasets: [{
+              label: 'Daily Registrations',
+              data: counts,
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+              legend: {
+                  display: false
+              }
+          },
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  grid: {
+                      display: true,
+                      color: 'rgba(0,0,0,0.05)'
+                  },
+                  ticks: {
+                      stepSize: 1
+                  }
+              },
+              x: {
+                  grid: {
+                      display: false
+                  }
+              }
+          }
+      }
+  });
+</script>
+{% endblock %}

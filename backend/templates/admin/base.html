@@ -1,0 +1,456 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | Arnica Connect Admin{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        /* Custom CSS Variables */
+        :root {
+            --primary-color: #0ea5e9;
+            --primary-dark: #0284c7;
+            --primary-light: #e0f2fe;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --sidebar-bg: #1e293b;
+            --sidebar-text: #f1f5f9;
+            --sidebar-hover: #334155;
+        }
+
+        /* Header Customization */
+        #header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-bottom: 3px solid var(--primary-dark);
+        }
+
+        #branding h1 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        #branding h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        #branding h1 a:hover {
+            color: var(--primary-light);
+        }
+
+        /* Sidebar Customization */
+        #nav-sidebar {
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-hover);
+        }
+
+        #nav-sidebar .module {
+            background: transparent;
+            border: none;
+        }
+
+        #nav-sidebar .module h2 {
+            color: var(--sidebar-text);
+            background: var(--sidebar-hover);
+            border-radius: 6px;
+            padding: 10px 15px;
+            margin: 15px 10px 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #nav-sidebar .model-group {
+            margin-bottom: 20px;
+        }
+
+        #nav-sidebar .model-group h3 {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 10px 10px;
+            padding: 0;
+            font-weight: 600;
+        }
+
+        #nav-sidebar th, #nav-sidebar td {
+            border: none;
+            padding: 8px 10px;
+        }
+
+        #nav-sidebar a {
+            color: #cbd5e1;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 2px 10px;
+            display: block;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        #nav-sidebar a:hover {
+            background: var(--sidebar-hover);
+            color: white;
+            transform: translateX(3px);
+        }
+
+        #nav-sidebar a:link, #nav-sidebar a:visited {
+            color: #cbd5e1;
+        }
+
+        /* Main Content Area */
+        #content {
+            padding: 25px;
+        }
+
+        .module {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .module h2, .module caption {
+            background: linear-gradient(135deg, var(--primary-light), #ffffff);
+            color: var(--primary-dark);
+            padding: 15px;
+            margin: 0;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Tables */
+        table {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        thead th {
+            background: #f8fafc;
+            color: var(--secondary-color);
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+            padding: 12px 15px;
+        }
+
+        tbody td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Forms */
+        .form-row {
+            border-bottom: 1px solid #f1f5f9;
+            padding: 15px 0;
+        }
+
+        .form-row:last-child {
+            border-bottom: none;
+        }
+
+        label {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        select,
+        textarea {
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 10px;
+            width: 100%;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            outline: none;
+        }
+
+        /* Buttons */
+        .button, input[type="submit"], input[type="button"] {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .button.default {
+            background: var(--success-color);
+        }
+
+        .button.default:hover {
+            background: #059669;
+        }
+
+        .deletelink {
+            background: var(--danger-color);
+            color: white;
+            border-radius: 6px;
+            padding: 8px 16px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .deletelink:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Dashboard Cards */
+        .dashboard .module {
+            border: none;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Messages */
+        .messagelist li {
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid transparent;
+        }
+
+        .messagelist li.success {
+            background: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .messagelist li.warning {
+            background: #fef3c7;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+
+        .messagelist li.error {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        /* Pagination */
+        .pagination {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .pagination a:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .pagination .this-page {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            #content {
+                padding: 15px;
+            }
+            
+            .module {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Custom Admin Logo */
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Stats Cards */
+        .stats-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .stats-card h3 {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stats-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Action buttons */
+        .object-tools {
+            margin-bottom: 20px;
+        }
+
+        .object-tools a {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 6px;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .object-tools a:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Inline groups */
+        .inline-group {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .inline-group h2 {
+            background: #f8fafc;
+            padding: 15px;
+            margin: 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Filter sidebar */
+        #changelist-filter {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        #changelist-filter h2 {
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Search box */
+        #searchbar {
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 10px;
+            transition: border-color 0.2s ease;
+        }
+
+        #searchbar:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        /* User tools */
+        #user-tools {
+            color: white;
+            font-weight: 500;
+        }
+
+        #user-tools a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        #user-tools a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+{% endblock %}
+
+{% block branding %}
+    <div class="admin-logo">
+        <div class="admin-logo-icon">A</div>
+        <div>
+            <h1 id="site-name">
+                <a href="{% url 'admin:index' %}">Arnica Connect Admin</a>
+            </h1>
+            <small style="color: #cbd5e1; font-size: 0.8rem;">Healthcare Professional Platform</small>
+        </div>
+    </div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

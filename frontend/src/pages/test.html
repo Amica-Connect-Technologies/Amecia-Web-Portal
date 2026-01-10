@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Professional Pricing Plans</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+     .price-cards {
+        background-color: #f8fafc;
+        color: #334155;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .header h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 15px;
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+        color: #64748b;
+        line-height: 1.6;
+      }
+
+      .toggle-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 40px;
+        gap: 15px;
+      }
+
+      .toggle-text {
+        font-weight: 600;
+        color: #475569;
+      }
+
+      .toggle-switch {
+        position: relative;
+        width: 70px;
+        height: 34px;
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+        border-radius: 34px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .toggle-switch:after {
+        content: "";
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background-color: white;
+        top: 4px;
+        left: 4px;
+        transition: all 0.3s;
+      }
+
+      .toggle-switch.active {
+        background: linear-gradient(135deg, #06b6d4, #4f46e5);
+      }
+
+      .toggle-switch.active:after {
+        transform: translateX(36px);
+      }
+
+      .pricing-cards {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 40px 30px;
+        width: 100%;
+        max-width: 350px;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+      }
+
+      .card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .card.basic:hover {
+        border-color: #94a3b8;
+      }
+
+      .card.advance:hover {
+        border-color: #4f46e5;
+      }
+
+      .card.premium:hover {
+        border-color: #f59e0b;
+      }
+
+      .card-badge {
+        position: absolute;
+        top: 20px;
+        right: -30px;
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+        color: white;
+        padding: 6px 35px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        transform: rotate(45deg);
+      }
+
+      .card.premium .card-badge {
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+      }
+
+      .card-header {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .card-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .card.basic .card-title {
+        color: #64748b;
+      }
+
+      .card.advance .card-title {
+        color: #4f46e5;
+      }
+
+      .card.premium .card-title {
+        color: #f59e0b;
+      }
+
+      .card-subtitle {
+        color: #94a3b8;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .card-price {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 30px;
+      }
+
+      .currency {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 8px;
+        color: #334155;
+      }
+
+      .amount {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1;
+        margin: 0 5px;
+      }
+
+      .period {
+        align-self: flex-end;
+        margin-bottom: 8px;
+        color: #64748b;
+        font-size: 0.95rem;
+      }
+
+      .card-features {
+        list-style: none;
+        margin-bottom: 40px;
+      }
+
+      .card-features li {
+        padding: 12px 0;
+        border-bottom: 1px dashed #e2e8f0;
+        display: flex;
+        align-items: center;
+      }
+
+      .card-features li:last-child {
+        border-bottom: none;
+      }
+
+      .feature-icon {
+        margin-right: 12px;
+        font-size: 1.1rem;
+        width: 24px;
+        text-align: center;
+      }
+
+      .card.basic .feature-icon {
+        color: #94a3b8;
+      }
+
+      .card.advance .feature-icon {
+        color: #4f46e5;
+      }
+
+      .card.premium .feature-icon {
+        color: #f59e0b;
+      }
+
+      .card-cta {
+        display: block;
+        width: 100%;
+        padding: 16px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.05rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: none;
+        text-decoration: none;
+      }
+
+      .card.basic .card-cta {
+        background-color: #f8fafc;
+        color: #334155;
+        border: 2px solid #e2e8f0;
+      }
+
+      .card.basic .card-cta:hover {
+        background-color: #e2e8f0;
+      }
+
+      .card.advance .card-cta {
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+        color: white;
+      }
+
+      .card.advance .card-cta:hover {
+        background: linear-gradient(135deg, #4338ca, #0891b2);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+      }
+
+      .card.premium .card-cta {
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+        color: white;
+      }
+
+      .card.premium .card-cta:hover {
+        background: linear-gradient(135deg, #d97706, #ea580c);
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+      }
+
+      .card-annotation {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      /* Animation for card entrance */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      .card.basic {
+        animation-delay: 0.1s;
+        opacity: 0;
+      }
+
+      .card.advance {
+        animation-delay: 0.2s;
+        opacity: 0;
+      }
+
+      .card.premium {
+        animation-delay: 0.3s;
+        opacity: 0;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 1100px) {
+        .pricing-cards {
+          gap: 20px;
+        }
+
+        .card {
+          max-width: 320px;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .pricing-cards {
+          flex-wrap: wrap;
+        }
+
+        .card {
+          max-width: 100%;
+          width: 100%;
+          max-width: 450px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2.2rem;
+        }
+
+        .card {
+          padding: 30px 25px;
+        }
+
+        .amount {
+          font-size: 3rem;
+        }
+      }
+
+      footer {
+        margin-top: 60px;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 0.9rem;
+      }
+
+      footer a {
+        color: #4f46e5;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="price-cards">
+      <div class="container">
+        <div class="header">
+          <h1>Choose Your Perfect Plan</h1>
+          <p>
+            Select the plan that best fits your needs. All plans include a
+            30-day money-back guarantee and 24/7 customer support.
+          </p>
+        </div>
+
+        <div class="pricing-cards">
+          <!-- Basic Card -->
+          <div class="card basic">
+            <div class="card-header">
+              <h2 class="card-title">Basic</h2>
+              <p class="card-subtitle">
+                Perfect for individuals and small projects
+              </p>
+            </div>
+            <div class="card-price">
+              <span class="currency">$</span>
+              <span class="amount" id="basicPrice">19</span>
+              <span class="period" id="basicPeriod">/month</span>
+            </div>
+            <ul class="card-features">
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Up to 5 users
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                10GB storage
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Basic analytics
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                24/7 email support
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-times"></i></span>
+                Advanced features
+              </li>
+            </ul>
+            <button class="card-cta">Get Started</button>
+            <p class="card-annotation">No credit card required</p>
+          </div>
+
+          <!-- Advance Card -->
+          <div class="card advance">
+            <div class="card-badge">POPULAR</div>
+            <div class="card-header">
+              <h2 class="card-title">Advanced</h2>
+              <p class="card-subtitle">
+                Great for growing teams and businesses
+              </p>
+            </div>
+            <div class="card-price">
+              <span class="currency">$</span>
+              <span class="amount" id="advancePrice">49</span>
+              <span class="period" id="advancePeriod">/month</span>
+            </div>
+            <ul class="card-features">
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Up to 20 users
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                100GB storage
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Advanced analytics
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Priority email & chat support
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Custom integrations
+              </li>
+            </ul>
+            <button class="card-cta">Try Free for 14 Days</button>
+            <p class="card-annotation">Most popular choice</p>
+          </div>
+
+          <!-- Premium Card -->
+          <div class="card premium">
+            <div class="card-header">
+              <h2 class="card-title">Premium</h2>
+              <p class="card-subtitle">For enterprises with advanced needs</p>
+            </div>
+            <div class="card-price">
+              <span class="currency">$</span>
+              <span class="amount" id="premiumPrice">99</span>
+              <span class="period" id="premiumPeriod">/month</span>
+            </div>
+            <ul class="card-features">
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Unlimited users
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                500GB storage
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Advanced analytics & reporting
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                24/7 phone & chat support
+              </li>
+              <li>
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                Custom solutions & SLA
+              </li>
+            </ul>
+            <button class="card-cta">Contact Sales</button>
+            <p class="card-annotation">Includes dedicated account manager</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Toggle switch functionality
+      const toggleSwitch = document.getElementById("toggleSwitch");
+      const basicPrice = document.getElementById("basicPrice");
+      const advancePrice = document.getElementById("advancePrice");
+      const premiumPrice = document.getElementById("premiumPrice");
+      const basicPeriod = document.getElementById("basicPeriod");
+      const advancePeriod = document.getElementById("advancePeriod");
+      const premiumPeriod = document.getElementById("premiumPeriod");
+
+      // Monthly prices
+      const monthlyPrices = {
+        basic: 19,
+        advance: 49,
+        premium: 99,
+      };
+
+      // Yearly prices (20% discount)
+      const yearlyPrices = {
+        basic: Math.round(monthlyPrices.basic * 12 * 0.8),
+        advance: Math.round(monthlyPrices.advance * 12 * 0.8),
+        premium: Math.round(monthlyPrices.premium * 12 * 0.8),
+      };
+
+      // Toggle between monthly and yearly pricing
+      toggleSwitch.addEventListener("click", function () {
+        this.classList.toggle("active");
+
+        if (this.classList.contains("active")) {
+          // Switch to yearly pricing
+          basicPrice.textContent = yearlyPrices.basic;
+          advancePrice.textContent = yearlyPrices.advance;
+          premiumPrice.textContent = yearlyPrices.premium;
+
+          basicPeriod.textContent = "/year";
+          advancePeriod.textContent = "/year";
+          premiumPeriod.textContent = "/year";
+        } else {
+          // Switch to monthly pricing
+          basicPrice.textContent = monthlyPrices.basic;
+          advancePrice.textContent = monthlyPrices.advance;
+          premiumPrice.textContent = monthlyPrices.premium;
+
+          basicPeriod.textContent = "/month";
+          advancePeriod.textContent = "/month";
+          premiumPeriod.textContent = "/month";
+        }
+
+        // Add animation effect on price change
+        [basicPrice, advancePrice, premiumPrice].forEach((priceElement) => {
+          priceElement.style.transform = "scale(1.1)";
+          setTimeout(() => {
+            priceElement.style.transform = "scale(1)";
+          }, 300);
+        });
+      });
+
+      // Card selection animation
+      const cards = document.querySelectorAll(".card");
+      const ctaButtons = document.querySelectorAll(".card-cta");
+
+      ctaButtons.forEach((button, index) => {
+        button.addEventListener("click", function () {
+          // Visual feedback for button click
+          this.style.transform = "scale(0.95)";
+          setTimeout(() => {
+            this.style.transform = "scale(1)";
+          }, 200);
+
+          // Highlight the selected card
+          cards.forEach((card) => {
+            card.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.08)";
+            card.style.borderWidth = "1px";
+          });
+
+          const parentCard = this.closest(".card");
+          parentCard.style.boxShadow = "0 20px 40px rgba(0, 0, 0, 0.15)";
+
+          if (parentCard.classList.contains("basic")) {
+            parentCard.style.borderWidth = "2px";
+            parentCard.style.borderColor = "#94a3b8";
+          } else if (parentCard.classList.contains("advance")) {
+            parentCard.style.borderWidth = "2px";
+            parentCard.style.borderColor = "#4f46e5";
+          } else if (parentCard.classList.contains("premium")) {
+            parentCard.style.borderWidth = "2px";
+            parentCard.style.borderColor = "#f59e0b";
+          }
+
+          // Show a confirmation message
+          const planName = parentCard.querySelector(".card-title").textContent;
+          alert(
+            `Thank you for selecting the ${planName} plan! You will be redirected to the checkout page.`
+          );
+        });
+      });
+
+      // Add hover effect for cards
+      cards.forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          // Add a subtle pulse animation on hover
+          this.style.animation = "none";
+          setTimeout(() => {
+            this.style.animation = "fadeInUp 0.6s ease";
+          }, 10);
+        });
+      });
+
+      // Initialize with a slight delay for staggered animations
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+          cards.forEach((card) => {
+            card.style.opacity = "1";
+          });
+        }, 100);
+      });
+    </script>
+  </body>
+</html>
