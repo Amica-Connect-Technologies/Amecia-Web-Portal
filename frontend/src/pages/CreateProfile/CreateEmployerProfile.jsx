@@ -5,12 +5,9 @@ import FormInput from '../../components/Common/FormInput';
 import Alert from '../../components/Common/Alert';
 import LoadingSpinner from '../../components/Common/LoadingSpinner';
 import { profileAPI } from '../../services/api';
-import { BuildingOfficeIcon,  UserIcon } from '@heroicons/react/24/outline';
+import { BuildingOfficeIcon, ArrowUpTrayIcon, UserIcon } from '@heroicons/react/24/outline';
 
-import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
-
-
-const EmployerProfile = () => {
+const CreateEmployerProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -342,4 +339,4 @@ const EmployerProfile = () => {
   );
 };
 
-export default EmployerProfile;
+export default CreateEmployerProfile;

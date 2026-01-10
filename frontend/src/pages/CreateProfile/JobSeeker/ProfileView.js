@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
-import { profileAPI } from '../../../services/api';
-import { 
-  UserIcon, 
-  AcademicCapIcon, 
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { profileAPI } from "../../../services/api";
+import {
+  UserIcon,
+  AcademicCapIcon,
   BriefcaseIcon,
   CalendarIcon,
   PhoneIcon,
@@ -12,17 +12,17 @@ import {
   EnvelopeIcon,
   DocumentTextIcon,
   PencilIcon,
-  ExclamationCircleIcon
-} from '@heroicons/react/24/outline';
-import LoadingSpinner from '../../../components/Common/LoadingSpinner';
-import Alert from '../../../components/Common/Alert';
+  ExclamationCircleIcon,
+} from "@heroicons/react/24/outline";
+import LoadingSpinner from "../../../components/Common/LoadingSpinner";
+import Alert from "../../../components/Common/Alert";
 
 const ProfileView = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchProfile();
@@ -32,18 +32,18 @@ const ProfileView = () => {
     try {
       setLoading(true);
       const response = await profileAPI.getProfile();
-      
+
       if (response) {
         setProfile(response);
       } else {
         setProfile(null); // No profile exists
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      console.error("Error fetching profile:", error);
       if (error.response?.status === 404) {
         setProfile(null); // Profile doesn't exist
       } else {
-        setError('Failed to load profile. Please try again.');
+        setError("Failed to load profile. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -51,12 +51,12 @@ const ProfileView = () => {
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'Not specified';
+    if (!dateString) return "Not specified";
     try {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
     } catch (e) {
       return dateString;
@@ -80,10 +80,14 @@ const ProfileView = () => {
             <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <ExclamationCircleIcon className="w-10 h-10 text-yellow-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Profile Not Found</h2>
-            <p className="text-gray-600 mb-6">You need to create a profile first.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Profile Not Found
+            </h2>
+            <p className="text-gray-600 mb-6">
+              You need to create a profile first.
+            </p>
             <button
-              onClick={() => navigate('/profile/create')}
+              onClick={() => navigate("/create/profile/jobseeker")}
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
             >
               Create Profile
@@ -101,10 +105,12 @@ const ProfileView = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-            <p className="text-gray-600 mt-2">View and manage your professional profile</p>
+            <p className="text-gray-600 mt-2">
+              View and manage your professional profile
+            </p>
           </div>
           <button
-            onClick={() => navigate('/jobseeker/profile/edit')}
+            onClick={() => navigate("/jobseeker/profile/edit")}
             className="bg-white text-blue-600 px-4 py-2 rounded-lg border border-blue-600 hover:bg-blue-50 transition flex items-center"
           >
             <PencilIcon className="w-4 h-4 mr-2" />
@@ -112,9 +118,7 @@ const ProfileView = () => {
           </button>
         </div>
 
-        {error && (
-          <Alert type="error" message={error} className="mb-6" />
-        )}
+        {error && <Alert type="error" message={error} className="mb-6" />}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Personal Info & Documents */}
@@ -134,18 +138,23 @@ const ProfileView = () => {
                   </div>
                 )}
                 <h2 className="text-xl font-bold text-gray-900">
-                  {profile.first_name || 'Not'} {profile.last_name || 'Provided'}
+                  {profile.first_name || "Not"}{" "}
+                  {profile.last_name || "Provided"}
                 </h2>
-                <p className="text-blue-600 font-medium">{profile.profession || 'No profession specified'}</p>
+                <p className="text-blue-600 font-medium">
+                  {profile.profession || "No profession specified"}
+                </p>
                 {profile.experience_years && (
-                  <p className="text-gray-600 mt-2">{profile.experience_years} years of experience</p>
+                  <p className="text-gray-600 mt-2">
+                    {profile.experience_years} years of experience
+                  </p>
                 )}
               </div>
 
               <div className="mt-6 space-y-4">
                 <div className="flex items-center text-gray-600">
                   <EnvelopeIcon className="w-5 h-5 mr-3 flex-shrink-0" />
-                  <span className="truncate">{user?.email || 'No email'}</span>
+                  <span className="truncate">{user?.email || "No email"}</span>
                 </div>
                 {profile.phone && (
                   <div className="flex items-center text-gray-600">
@@ -170,7 +179,9 @@ const ProfileView = () => {
 
             {/* Documents Card */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Documents</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Documents
+              </h3>
               <div className="space-y-4">
                 {profile.resume ? (
                   <a
@@ -191,7 +202,7 @@ const ProfileView = () => {
                     <span className="text-gray-500">No resume uploaded</span>
                   </div>
                 )}
-                
+
                 {profile.certifications ? (
                   <a
                     href={profile.certifications}
@@ -219,17 +230,27 @@ const ProfileView = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Professional Information */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Professional Information</h3>
-              
+              <h3 className="text-xl font-semibold text-gray-900 mb-6">
+                Professional Information
+              </h3>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Profession</h4>
-                  <p className="text-lg font-medium text-gray-900">{profile.profession || 'Not specified'}</p>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                    Profession
+                  </h4>
+                  <p className="text-lg font-medium text-gray-900">
+                    {profile.profession || "Not specified"}
+                  </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Experience</h4>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                    Experience
+                  </h4>
                   <p className="text-lg font-medium text-gray-900">
-                    {profile.experience_years ? `${profile.experience_years} years` : 'Not specified'}
+                    {profile.experience_years
+                      ? `${profile.experience_years} years`
+                      : "Not specified"}
                   </p>
                 </div>
               </div>
@@ -241,7 +262,9 @@ const ProfileView = () => {
                     Education
                   </h4>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-gray-700 whitespace-pre-line">{profile.education}</p>
+                    <p className="text-gray-700 whitespace-pre-line">
+                      {profile.education}
+                    </p>
                   </div>
                 </div>
               )}
@@ -254,16 +277,17 @@ const ProfileView = () => {
                   </h4>
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <div className="flex flex-wrap gap-2">
-                      {profile.skills.split(',').map((skill, index) => (
-                        skill.trim() && (
-                          <span
-                            key={index}
-                            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
-                          >
-                            {skill.trim()}
-                          </span>
-                        )
-                      ))}
+                      {profile.skills.split(",").map(
+                        (skill, index) =>
+                          skill.trim() && (
+                            <span
+                              key={index}
+                              className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                            >
+                              {skill.trim()}
+                            </span>
+                          )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -279,21 +303,33 @@ const ProfileView = () => {
 
             {/* Profile Completion Status */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Completion</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Profile Completion
+              </h3>
               <div className="space-y-3">
                 {[
-                  { label: 'Personal Information', check: profile.first_name && profile.last_name },
-                  { label: 'Contact Details', check: profile.phone },
-                  { label: 'Profession', check: profile.profession },
-                  { label: 'Experience', check: profile.experience_years },
-                  { label: 'Resume', check: profile.resume },
+                  {
+                    label: "Personal Information",
+                    check: profile.first_name && profile.last_name,
+                  },
+                  { label: "Contact Details", check: profile.phone },
+                  { label: "Profession", check: profile.profession },
+                  { label: "Experience", check: profile.experience_years },
+                  { label: "Resume", check: profile.resume },
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
                     <span className="text-gray-700">{item.label}</span>
                     {item.check ? (
-                      <span className="text-green-600 font-medium">✓ Complete</span>
+                      <span className="text-green-600 font-medium">
+                        ✓ Complete
+                      </span>
                     ) : (
-                      <span className="text-yellow-600 font-medium">⚠ Missing</span>
+                      <span className="text-yellow-600 font-medium">
+                        ⚠ Missing
+                      </span>
                     )}
                   </div>
                 ))}

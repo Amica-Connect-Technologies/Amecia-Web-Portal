@@ -5,12 +5,9 @@ import FormInput from '../../components/Common/FormInput';
 import Alert from '../../components/Common/Alert';
 import LoadingSpinner from '../../components/Common/LoadingSpinner';
 import { profileAPI } from '../../services/api';
-import { UserIcon, AcademicCapIcon, BriefcaseIcon } from '@heroicons/react/24/outline';
+import { UserIcon, ArrowUpTrayIcon, AcademicCapIcon, BriefcaseIcon } from '@heroicons/react/24/outline';
 
-import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
-
-
-const JobSeekerProfile = () => {
+const CreateJobSeekerProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -433,4 +430,4 @@ const JobSeekerProfile = () => {
   );
 };
 
-export default JobSeekerProfile;
+export default CreateJobSeekerProfile;

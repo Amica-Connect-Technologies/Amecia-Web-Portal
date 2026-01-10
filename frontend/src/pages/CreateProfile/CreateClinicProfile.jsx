@@ -9,7 +9,7 @@ import { BuildingOfficeIcon } from '@heroicons/react/24/outline';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 
 
-const ClinicProfile = () => {
+const CreateClinicProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -399,5 +399,4 @@ const ClinicProfile = () => {
     </div>
   );
 };
-
-export default ClinicProfile;
+export default CreateClinicProfile;

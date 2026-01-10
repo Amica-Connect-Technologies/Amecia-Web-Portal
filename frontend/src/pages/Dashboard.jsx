@@ -973,73 +973,12 @@ const Dashboard = () => {
                     <p className="text-gray-500">{user?.email}</p>
                   </div>
                 </div>
-                <div
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    profile && getProfileCompletion() >= 70
-                      ? "bg-green-100 text-green-800"
-                      : "bg-yellow-100 text-yellow-800"
-                  }`}
-                >
-                  {profile
-                    ? getProfileCompletion() >= 70
-                      ? "Complete"
-                      : `${getProfileCompletion()}% Complete`
-                    : "Not Started"}
-                </div>
+                
               </div>
 
-              {/* Progress Bar */}
-              <div className="mb-6">
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-gray-600">Profile Completion</span>
-                  <span className="font-medium">{getProfileCompletion()}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      getProfileCompletion() >= 70
-                        ? "bg-green-500"
-                        : "bg-primary-600"
-                    }`}
-                    style={{
-                      width: `${Math.min(getProfileCompletion(), 100)}%`,
-                    }}
-                  ></div>
-                </div>
-              </div>
+              
 
-              {/* Next Steps */}
-              <div
-                className={`p-4 rounded-lg ${
-                  nextStep.title.includes("Complete") &&
-                  !nextStep.title.includes("Profile Complete!")
-                    ? "bg-primary-50 border border-primary-200"
-                    : "bg-green-50 border border-green-200"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="p-2 bg-white rounded-lg mr-4">
-                      <nextStep.icon className="w-6 h-6 text-primary-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-gray-900">
-                        {nextStep.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 mt-1">
-                        {nextStep.description}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={nextStep.action}
-                    className="flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition duration-200"
-                  >
-                    {nextStep.buttonText}
-                    <ArrowRightIcon className="w-4 h-4 ml-2" />
-                  </button>
-                </div>
-              </div>
+              
             </div>
 
             {/* Stats Section */}

@@ -190,7 +190,7 @@ const ClinicProfileView = () => {
                 Retry Loading
               </button>
               <button
-                onClick={() => navigate('/profile/create')}
+                onClick={() => navigate('/create/profile/clinic')}
                 className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg"
               >
                 Create Clinic Profile
